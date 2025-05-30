@@ -7,21 +7,34 @@ class Attacker:
         self.threat = threat
         # attacking actions: DoS, DDoS, SQL injection, Trojan, Spoofing, Social Engineering attacks
 
-john = Attacker('John', 34, 2)
-
 
 class Player: 
     def __init__(self):
         self.health = 100
         self.vunerabilityLevel = 0
         self.vulnerabilities = 0
+        self.money = 10000
 
 class Events:
-    def __init__(self, timesCalled, threatAdjustment, vunlerabilityAdjustment):
+    def __init__(self, threatAdjustment, vunlerabilityAdjustment, damage):
         self.lastCalled = False
-        self.timesCalled = timesCalled
+        self.timesCalled = 0
         self.threatAdjustment = threatAdjustment
         self.vulnerabilityAdjustment = vunlerabilityAdjustment
+        self.damage = damage
+
+turn = 0
+playerName = input("Please input your name: ")
+print("Welcome " + playerName + "!!!")
+player = Player()
+print("The objective of this game is to survive and not let your company go under for as long as possible.")
+print("You start with 100 life, and $10,000")
+print("You also start with no vulnerabilities to exploit, but events and attackers can open them up!")
+print("Good luck!")
+
+
+#turn three, nine, fifteen, and twenty attackers are 'added'. 
+
 # vulerability check actions: IDS Setup, SIEM detection, Blue/Red exercise
 # defensive actions: honeypot (trap), firewall, patching, 
 # attacking actions: Power Outage, SWAT, counterhack, (high levels) drone
