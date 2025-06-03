@@ -21,3 +21,4 @@ A "win" can be reached through purchasing "investigation" related items to inves
 ## Features to be added
 - Multiple components to the player's company, each of which can gain a vulnerability due to an event and have to be scanned
 - An item shop that shows up every other 'day' that the player can buy items, upgrades, or abilities from based on currency, and that's another way that the player will have to balance their cash, allowing you to increase your income by spending it.
+- More to be added...
