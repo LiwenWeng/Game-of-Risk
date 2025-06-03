@@ -1,32 +1,6 @@
 import math, random
-
-class Attacker:
-    def __init__(self, name, threat, willpower):
-        self.name = name
-        self.willpower = willpower
-        self.threat = threat
-        # attacking actions: DoS, DDoS, SQL injection, Trojan, Spoofing, Social Engineering attacks
-
-
-class Player: 
-    def __init__(self):
-        self.health = 100
-        self.vunerabilityLevel = 0
-        self.vulnerabilities = 0
-        self.money = 10000
-
-class Events:
-    def __init__(self, threatAdjustment, vulnerabilityAdjustment, damage, cost):
-        self.lastCalled = False
-        self.timesCalled = 0
-        self.threatAdjustment = threatAdjustment
-        self.vulnerabilityAdjustment = vulnerabilityAdjustment
-        self.damage = damage
-        self.cost = cost
-
-powerOutage = Events(2, 1, 15, 0)
-lawsuit = Events(0, 0, 0, 5000)
-
+from attacker import Attacker
+from player import Player
 
 
 def pickEvent():
@@ -41,6 +15,7 @@ def pickEvent():
         print("Congratulations! The companies employees FINALLY DECIDED TO LISTEN TO YOU. Your company is slightly less vulnerable :)")
         player.vunerabilityLevel -= 1
 
+
 def newTurn():
     turn += 1
     print("Turn " + str(turn) + ".")
@@ -53,6 +28,7 @@ def newTurn():
     if turn == 20:
         jeff = Attacker('jeff', 5, 100)
     pickEvent()
+
 
 turn = 0
 playerName = input("Please input your name: ")
