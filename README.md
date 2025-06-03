@@ -1,5 +1,7 @@
 # Game-of-Risk
-Made by Michael and Liwen :)
+**A fun text-based game made with python that involves managing risk that will help players identify security vulnerabilities and their appropriate defenses.**
+
+*Made by Michael and Liwen :)*
 
 ## Overview 
 This game is a turn based game where the main objective is to survive/keep your company afloat.
