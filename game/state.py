@@ -36,4 +36,3 @@ class State:
     def reset(self):
         self.__init__(self.max_days, self.asset_value)
     
-game_state = State()

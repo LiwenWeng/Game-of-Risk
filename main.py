@@ -1,2 +1,4 @@
-from game import game_state
+from game import Engine
 
+engine = Engine()
+engine.run()
