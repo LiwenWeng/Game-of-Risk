@@ -14,3 +14,6 @@ def colored_text(text: str, color: str = Fore.WHITE, style: str = Style.NORMAL):
 
 def print_colored(text: str, color: str = Fore.WHITE, style: str = Style.NORMAL):
     print(colored_text(text, color, style))
+
+def section_break(length: int, char: str = "-", end="\n"):
+    print(char * length + end)

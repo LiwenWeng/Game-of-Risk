@@ -7,6 +7,7 @@ from game import EventManager, State
 from game.entities.player import Player
 from game.constants import GAME_NAME
 from game.utils import clear_screen, select_option, type_text, colored_text, print_colored
+from game.utils.display import section_break
 
 class Engine:
     def __init__(self):
@@ -28,7 +29,7 @@ class Engine:
         def show_menu_header(shoud_type_text: bool = False):
             print(logo)
             (type_text if shoud_type_text else print)(colored_text("Survive the Cyber Storm.", Fore.YELLOW))
-            print("------------------------\n")
+            section_break(24)
 
 
         options = [
@@ -82,8 +83,7 @@ class Engine:
             print_colored("⚠️  Elevated risk. Proceed with caution.", Fore.YELLOW)
         else:
             print_colored("✅ Risk under control. Stay vigilant.", Fore.GREEN)
-        print("-" * 40)
-        print()
+        section_break(40)
 
     def select_day_option(self):
         clear_screen()
@@ -111,8 +111,7 @@ class Engine:
 
     def show_instructions(self):
         clear_screen()
-        print("instructions")
-        input()
+        input("instructions\n")
         self.run()
 
     def exit_game(self):
