@@ -174,13 +174,16 @@ class Engine:
                 index = (index - 1) % len(self.all_defenses)
             elif key.lower() == 'a':
                 if defense.active:
-                    type_text(colored_text("Already active.", Fore.BLUE))                    
+                    type_text(colored_text("Already active.", Fore.BLUE))  
+                elif self.state.defense_activation_locked:
+                    type_text(colored_text("Activation locked due to budget cuts.", Fore.RED))                     
                 elif self.player.budget >= defense.cost:
                     if defense.activate():
                         self.player.budget -= defense.cost
                         type_text(colored_text(f"{defense.name} activated!", Fore.GREEN))
                 else:
                     type_text(colored_text("Insufficient budget.", Fore.RED))
+
                 input("\nPress any key to continue...")
             elif key.lower() == 'q':
                 self.handle_action()

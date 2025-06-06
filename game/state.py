@@ -14,6 +14,7 @@ class State:
         self.asset_value = starting_asset_value
         self.asset_growth_rate = 1.01
         self.active_defenses = {}
+        self.defense_activation_locked = False
     
     def change_asset_value(self, amount: int):
         self.asset_value += amount
