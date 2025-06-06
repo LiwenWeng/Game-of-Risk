@@ -1,3 +1,4 @@
+import sys
 from colorama import Fore, Style
 import pyfiglet
 import readchar
@@ -15,16 +16,19 @@ class Engine:
         self.event_manager = EventManager()
 
     def run(self):
-        option = self.menu()        
+        [ 
+            self.start_new_game, 
+            self.show_instructions, 
+            self.exit_game 
+        ][self.menu()]()
     
-    def menu(self):
+    def menu(self) -> int:
         options = [
             { "text": "Start New Game", "color": Fore.GREEN },
-            { "text": "Load Game", "color": Fore.CYAN },
             { "text": "Instructions", "color": Fore.YELLOW },
             { "text": "Exit", "color": Fore.RED },
         ]
-        logo = colored_text(pyfiglet.figlet_format(self.game_name, font="small"), Fore.CYAN)
+        logo = colored_text(pyfiglet.figlet_format(self.game_name, font="small"), Fore.CYAN, Style.BRIGHT)
         selected = 0
 
         clear_screen()
@@ -52,3 +56,17 @@ class Engine:
                 selected = (selected + 1) % len(options)
             elif key == readchar.key.ENTER:
                 return selected
+    
+    def start_new_game(self):
+        clear_screen()
+        
+
+    def show_instructions(self):
+        clear_screen()
+        print("instructions")
+        input()
+        self.run()
+
+    def exit_game(self):
+        sys.exit()
+
