@@ -18,6 +18,7 @@ class DDOS(AttackEvent):
         if effective_threat < 0.5:
             self.state.log("Firewall mitigated most of the DDoS attack.")
         else:
+            self.state.risk_level = min(1.0, self.state.risk_level + 0.03)
             self.state.log("DDoS attack caused major slowdowns and service outages.")
 
     def process_weight(self):

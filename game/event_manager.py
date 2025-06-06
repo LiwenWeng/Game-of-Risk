@@ -58,11 +58,11 @@ class EventManager:
         triggered_events = []
 
         risk = self.state.risk_level
-        max_attacks = 0
-        if risk >= 0.7:
+        max_attacks = 1
+        if risk >= 0.67:
+            max_attacks = 5
+        elif risk >= 0.33:
             max_attacks = 3
-        elif risk >= 0.3:
-            max_attacks = 1
 
         attack_events = self.get_weighted_events(self.attacks)
         company_events = self.get_weighted_events(self.company)

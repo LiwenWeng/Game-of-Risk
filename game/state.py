@@ -2,7 +2,7 @@ from colorama import Fore, Style
 from game.utils.display import colored_text, print_colored, type_text
 
 class State:
-    def __init__(self, max_days: int = 30, starting_asset_value: int = 100_000):
+    def __init__(self, max_days: int = 30, starting_asset_value: int = 100000):
         self.max_days = max_days
         self.current_day = 1
         self.is_over = False
@@ -21,7 +21,7 @@ class State:
         action = "gained" if amount > 0 else "lost"
         self.log(f"Company {action} ${abs(amount):,}. New value: ${self.asset_value:,}")
 
-        if self.asset_value <= 0:
+        if self.asset_value <= 25000:
             self.end_game(win=False, reason="Company went bankrupt.")
 
     def is_defense_active(self, defense_name: str) -> bool:
@@ -41,7 +41,7 @@ class State:
         print_colored(f"Logs for Day {day}\n", Fore.MAGENTA, Style.BRIGHT)
 
         for entry in self.logs[day]:
-            type_text(colored_text("- " + entry, Fore.WHITE), 0.01)
+            print(colored_text("- " + entry, Fore.WHITE))
 
     def advance_day(self):
         self.update_assets()
@@ -50,7 +50,7 @@ class State:
             self.end_game(win=True, reason=f"Lasted {self.max_days}")
 
     def update_assets(self):
-        self.asset_value = round(self.asset_value * self.asset_growth_rate)
+        self.asset_value = round(self.asset_value * self.asset_growth_rate * (1 - self.risk_level))
     
     def end_game(self, win: bool, reason: str = ""):
         self.is_over = True

@@ -18,7 +18,8 @@ class ZeroDayExploit(AttackEvent):
             self.state.log("AI anomaly detection prevented zero-day escalation.")
         else:
             loss = round(self.state.asset_value * effective_threat * 0.2)
-            self.state.asset_value -= loss
+            self.state.change_asset_value(-loss)
+            self.state.risk_level = min(1.0, self.state.risk_level + 0.01)
             self.state.log(f"Zero-day exploit caused serious compromise. Loss: ${loss:,}.")
 
     def process_weight(self):

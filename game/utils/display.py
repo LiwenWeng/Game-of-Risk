@@ -1,7 +1,7 @@
 import time
 from colorama import Style, Fore
 
-def type_text(text, delay=0.03, end="\n"):
+def type_text(text, delay=0.01, end="\n"):
     for char in text:
         print(char, end='', flush=True)
         time.sleep(delay)

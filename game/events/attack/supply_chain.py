@@ -19,7 +19,8 @@ class SupplyChainBreach(AttackEvent):
             self.state.log("SIEM detected suspicious external behavior early.")
         else:
             loss = round(self.state.asset_value * effective_threat * 0.12)
-            self.state.asset_value -= loss
+            self.state.change_asset_value(-loss)
+            self.state.risk_level = min(1.0, self.state.risk_level + 0.06)
             self.state.log(f"Supply chain attack bypassed basic defenses. Loss: ${loss:,}.")
 
     def process_weight(self):

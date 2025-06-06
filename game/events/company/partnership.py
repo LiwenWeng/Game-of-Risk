@@ -2,13 +2,13 @@ from game.events.base_event import Event
 
 class IndustryPartnership(Event):
     name = "Industry Partnership"
-    description = "You’ve partnered with a major security firm for infrastructure upgrades."
+    description = "You've partnered with a major security firm for infrastructure upgrades."
 
     def __init__(self, state, player):
         super().__init__(state, player, weight=1)
 
     def apply(self):
-        for defense in self.state.active_defenses:
+        for defense in self.state.active_defenses.values():
             defense.effectiveness *= 1.05
         self.state.log("All active defenses received a 5% effectiveness boost.")
 

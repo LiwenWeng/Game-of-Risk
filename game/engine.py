@@ -14,16 +14,15 @@ class Engine:
         self.game_name = GAME_NAME
         self.state = State()
         self.player = Player()
-        self.event_manager = EventManager()
+        self.event_manager = EventManager(self.state, self.player)
         self.all_defenses = DefenseFactory().create_all(self.state)
 
     def run(self):
-        # [ 
-        #     self.start_new_game, 
-        #     self.show_instructions, 
-        #     self.exit_game 
-        # ][self.main_menu()]()
-        self.start_new_game()
+        [ 
+            self.start_new_game, 
+            self.show_instructions, 
+            self.exit_game 
+        ][self.main_menu()]()
     
     def main_menu(self) -> int:
         clear_screen()
@@ -44,8 +43,8 @@ class Engine:
         return select_option(options, show_menu_header)
     
     def start_new_game(self):
-        # self.show_welcome_message()
-        # self.set_name()
+        self.show_welcome_message()
+        self.set_name()
         self.day_menu()
         
     def show_welcome_message(self):
@@ -75,6 +74,8 @@ class Engine:
                 self.view_logs,
                 self.end_day
             ][self.select_day_option()]()
+        clear_screen()
+        self.show_victory_screen() if self.state.win else self.show_game_over_screen()
 
     def show_day_info(self):
         print_colored(f"Day {self.state.current_day} / {self.state.max_days}", Fore.CYAN, Style.BRIGHT)
@@ -89,6 +90,8 @@ class Engine:
             print_colored("⚠️  Elevated risk. Proceed with caution.", Fore.YELLOW)
         else:
             print_colored("✅ Risk under control. Stay vigilant.", Fore.GREEN)
+        section_break(40, end='')
+        self.state.view_logs(self.state.current_day)
         section_break(40)
 
     def select_day_option(self):
@@ -193,12 +196,32 @@ class Engine:
         self.state.advance_day()
         self.player.recieve_paycheck(self.state.asset_value)
         for defense in list(self.state.active_defenses.values()):
-            defense.tick()
+            if hasattr(defense, "tick"):
+                defense.tick()
 
     def show_instructions(self):
         clear_screen()
         input("instructions\n")
         self.run()
+
+    def show_game_over_screen(self):
+        print("\n" + "=" * 40)
+        print("💀 GAME OVER 💀".center(40))
+        print("=" * 40)
+        print(f"Final Asset Value: ${self.state.asset_value:,.2f}")
+        print(f"Final Risk Level: {self.state.risk_level:.2f}")
+        print(f"Total Days Survived: {self.state.current_day}")
+        print("=" * 40)
+        print("Thanks for playing. Your company couldn't survive the cyber onslaught.\n")
+
+    def show_victory_screen(self):
+        print("\n" + "=" * 40)
+        print("🎉 YOU SURVIVED! 🎉".center(40))
+        print("=" * 40)
+        print(f"Final Asset Value: ${self.state.asset_value:,.2f}")
+        print(f"Final Risk Level: {self.state.risk_level:.2f}")
+        print("=" * 40)
+        print("Your cybersecurity strategy paid off. Well done!\n")
 
     def exit_game(self):
         sys.exit()

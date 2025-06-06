@@ -19,7 +19,8 @@ class Ransomware(AttackEvent):
             self.state.log("Ransomware was contained by proactive defenses.")
         else:
             loss = round(self.state.asset_value * effective_threat * 0.1)
-            self.state.asset_value -= loss
+            self.state.change_asset_value(-loss)
+            self.state.risk_level = min(1.0, self.state.risk_level + 0.08)
             self.state.log(f"Paid ransom to regain access. Asset loss: ${loss:,}.")
 
     def process_weight(self):

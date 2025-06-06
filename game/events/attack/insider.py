@@ -19,7 +19,8 @@ class InsiderThreat(AttackEvent):
             self.state.log("Insider threat contained through internal monitoring.")
         else:
             loss = round(self.state.asset_value * effective_threat * 0.15)
-            self.state.asset_value -= loss
+            self.state.change_asset_value(-loss)
+            self.state.risk_level = min(1.0, self.state.risk_level + 0.07)
             self.state.log(f"Insider leaked data. Assets impacted by ${loss:,}.")
 
     def process_weight(self):
