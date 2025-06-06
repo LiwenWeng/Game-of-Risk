@@ -1,5 +1,5 @@
 from game.defenses.base_defense import Defense
-from game.state import State
+from game import State
 
 class DiminishingDefense(Defense):
     def __init__(self, cost: int, effectiveness: float, state: State, decay_rate: float = 0.05):

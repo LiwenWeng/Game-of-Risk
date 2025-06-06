@@ -2,8 +2,8 @@ from typing import Iterable
 from colorama import Fore
 
 from game.defenses.base_defense import Defense
-from game.state import State
-from game.utils.display import print_colored
+from game import State
+from game.utils import print_colored
 
 class DependentDefense(Defense):
     def __init__(self, cost: int, effectiveness: float, state: State, required: Iterable[str]):

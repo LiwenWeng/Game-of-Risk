@@ -12,6 +12,7 @@ class State:
         self.logs: dict[int, list] = {}
 
         self.asset_value = starting_asset_value
+        self.active_defenses = {}
     
     def change_asset_value(self, amount: int):
         self.asset_value += amount
@@ -22,7 +23,7 @@ class State:
             self.end_game(win=False, reason="Company went bankrupt.")
 
     def log(self, message: str):
-        if not self.logs[self.current_day]:
+        if not self.logs.get(self.current_day):
             self.logs[self.current_day] = []
         
         self.logs[self.current_day].append(message)
@@ -35,7 +36,7 @@ class State:
         print_colored(f"Logs for Day {day}\n", Fore.MAGENTA, Style.BRIGHT)
 
         for entry in self.logs[day]:
-            type_text(colored_text("- " + entry, Fore.WHITE))
+            type_text(colored_text("- " + entry, Fore.WHITE), 0.01)
 
     def advance_day(self):
         self.current_day += 1

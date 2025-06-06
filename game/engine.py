@@ -4,10 +4,10 @@ import pyfiglet
 import readchar
 
 from game import EventManager, State
-from game.entities.player import Player
+from game.defense_factory import DefenseFactory
+from game.player import Player
 from game.constants import GAME_NAME
-from game.utils import clear_screen, select_option, type_text, colored_text, print_colored
-from game.utils.display import section_break
+from game.utils import clear_screen, select_option, type_text, colored_text, print_colored, section_break
 
 class Engine:
     def __init__(self):
@@ -15,13 +15,15 @@ class Engine:
         self.state = State()
         self.player = Player()
         self.event_manager = EventManager()
+        self.all_defense = DefenseFactory().create_all(self.state)
 
     def run(self):
-        [ 
-            self.start_new_game, 
-            self.show_instructions, 
-            self.exit_game 
-        ][self.main_menu()]()
+        # [ 
+        #     self.start_new_game, 
+        #     self.show_instructions, 
+        #     self.exit_game 
+        # ][self.main_menu()]()
+        self.start_new_game()
     
     def main_menu(self) -> int:
         clear_screen()
@@ -43,7 +45,7 @@ class Engine:
     
     def start_new_game(self):
         # self.show_welcome_message()
-        self.set_name()
+        # self.set_name()
         while not self.state.is_over:
             [
                 self.handle_action,
@@ -97,7 +99,33 @@ class Engine:
         return select_option(options, self.show_day_info)
         
     def handle_action(self):
-        ...
+        options = [
+            { "text": "Analyze Threats", "color": Fore.CYAN },
+            { "text": "Upgrade Defenses", "color": Fore.GREEN },
+            { "text": "Visit Shop", "color": Fore.YELLOW },
+            { "text": "Return", "color": Fore.RED },
+        ]
+
+        def show_action_prompt():
+            print_colored("Choose an action to take today:\n", Fore.CYAN, Style.BRIGHT)
+
+        selected = select_option(options, show_action_prompt)
+
+        match selected:
+            case 0:
+                # Example placeholder — implement logic later
+                type_text(colored_text("\nYou analyzed potential threats and gained valuable intel.\n", Fore.CYAN))
+                self.state.change_asset_value(5000)
+            case 1:
+                type_text(colored_text("\nYou upgraded your firewall systems.\n", Fore.GREEN))
+                self.state.change_asset_value(-3000)
+            case 2:
+                type_text(colored_text("\nWelcome to the Shop. (Coming soon)\n", Fore.YELLOW))
+            case 3:
+                return
+        
+        input()
+        self.handle_action()
 
     def view_inventory(self):
         ...
