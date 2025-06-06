@@ -12,6 +12,7 @@ class State:
         self.logs: dict[int, list] = {}
 
         self.asset_value = starting_asset_value
+        self.asset_growth_rate = 1.01
         self.active_defenses = {}
     
     def change_asset_value(self, amount: int):
@@ -39,9 +40,13 @@ class State:
             type_text(colored_text("- " + entry, Fore.WHITE), 0.01)
 
     def advance_day(self):
+        self.update_assets()
         self.current_day += 1
         if self.current_day > self.max_days:
             self.end_game(win=True, reason=f"Lasted {self.max_days}")
+
+    def update_assets(self):
+        self.asset_value = round(self.asset_value * self.asset_growth_rate)
     
     def end_game(self, win: bool, reason: str = ""):
         self.is_over = True

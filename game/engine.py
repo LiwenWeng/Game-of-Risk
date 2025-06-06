@@ -78,6 +78,7 @@ class Engine:
     def show_day_info(self):
         print_colored(f"Day {self.state.current_day} / {self.state.max_days}", Fore.CYAN, Style.BRIGHT)
         print_colored(f"Analyst: {self.player.name}", Fore.MAGENTA)
+        print_colored(f"Budget: ${self.player.budget:,}", Fore.YELLOW if self.state.asset_value > 0 else Fore.RED)
         print_colored(f"Asset Value: ${self.state.asset_value:,}", Fore.GREEN if self.state.asset_value > 0 else Fore.RED)
         print_colored(f"Risk Level: {self.state.risk_level}", Fore.YELLOW)
 
@@ -186,6 +187,7 @@ class Engine:
 
     def end_day(self):
         self.state.advance_day()
+        self.player.recieve_paycheck(self.state.asset_value)
         for defense in list(self.state.active_defenses.values()):
             defense.tick()
 
