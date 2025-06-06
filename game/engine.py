@@ -31,7 +31,6 @@ class Engine:
             (type_text if shoud_type_text else print)(colored_text("Survive the Cyber Storm.", Fore.YELLOW))
             section_break(24)
 
-
         options = [
             { "text": "Start New Game", "color": Fore.GREEN },
             { "text": "Instructions", "color": Fore.YELLOW },
@@ -104,7 +103,25 @@ class Engine:
         ...
 
     def view_logs(self):
-        ...
+        clear_screen()
+
+        day = self.state.current_day
+        max_day = self.state.current_day
+
+        while True:
+            clear_screen()
+            self.state.view_logs(day)
+
+            print_colored("\nPress Q to return", Fore.CYAN)
+            print_colored("← Previous Day - Next Day →", Fore.CYAN)
+            key = readchar.readkey()
+
+            if key == readchar.key.RIGHT:
+                day = (day % max_day) + 1
+            elif key == readchar.key.LEFT:
+                day = ((day - 2) % max_day) + 1
+            elif key.lower() == 'q':
+                break
 
     def end_day(self):
         self.state.advance_day()

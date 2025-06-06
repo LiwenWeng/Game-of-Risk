@@ -1,3 +1,6 @@
+from colorama import Fore, Style
+from game.utils.display import colored_text, print_colored, type_text
+
 class State:
     def __init__(self, max_days: int = 30, starting_asset_value: int = 100_000):
         self.max_days = max_days
@@ -6,7 +9,7 @@ class State:
         self.win = False
 
         self.risk_level = 0
-        self.logs = []
+        self.logs: dict[int, list] = {}
 
         self.asset_value = starting_asset_value
     
@@ -19,7 +22,20 @@ class State:
             self.end_game(win=False, reason="Company went bankrupt.")
 
     def log(self, message: str):
-        self.logs.append(f"Day {self.current_day}: {message}")
+        if not self.logs[self.current_day]:
+            self.logs[self.current_day] = []
+        
+        self.logs[self.current_day].append(message)
+
+    def view_logs(self, day: int):
+        if day not in self.logs or not self.logs[day]:
+            print_colored(f"No logs found for Day {day}.", Fore.YELLOW)
+            return
+
+        print_colored(f"Logs for Day {day}\n", Fore.MAGENTA, Style.BRIGHT)
+
+        for entry in self.logs[day]:
+            type_text(colored_text("- " + entry, Fore.WHITE))
 
     def advance_day(self):
         self.current_day += 1
