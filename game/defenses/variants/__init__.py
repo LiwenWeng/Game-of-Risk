@@ -1,0 +1,3 @@
+from game.defenses.variants.dependent_defense import DependentDefense
+from game.defenses.variants.diminishing_defense import DiminishingDefense
+from game.defenses.variants.timed_defense import TimedDefense
