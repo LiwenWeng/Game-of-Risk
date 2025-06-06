@@ -12,3 +12,6 @@ class Event:
 
     def apply(self):
         raise NotImplementedError("Override this in subclasses")
+    
+    def __str__(self) -> str:
+        return f"{self.name}: {self.description}"
