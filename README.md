@@ -1,4 +1,4 @@
-# Game-of-Risk
+# Breach Point
 **A fun text-based game made with python that involves managing risk that will help players identify security vulnerabilities and their appropriate defenses.**
 
 *Made by Michael and Liwen :)*
