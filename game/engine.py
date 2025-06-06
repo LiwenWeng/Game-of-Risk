@@ -68,6 +68,7 @@ class Engine:
 
     def day_menu(self):
         while not self.state.is_over:
+            self.event_manager.trigger_events_for_day()
             [
                 self.handle_action,
                 self.view_inventory,

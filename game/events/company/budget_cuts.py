@@ -12,5 +12,5 @@ class BudgetCuts(Event):
         self.state.log("New defense activations are disabled for the day due to budget cuts.")
 
     def process_weight(self):
-        if self.player.asset_value > 100_000:
+        if self.state.asset_value > 100_000:
             self.weight += 1

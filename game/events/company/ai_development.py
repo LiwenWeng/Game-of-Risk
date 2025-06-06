@@ -1,3 +1,4 @@
+from game.defenses import AIAnomalyDetection
 from game.events.base_event import Event
 
 class GrantAIDevelopment(Event):
@@ -8,7 +9,8 @@ class GrantAIDevelopment(Event):
         super().__init__(state, player, weight=1)
 
     def apply(self):
-        self.state.free_defense_activations.add("AI Anomaly Detection")
+        ai_anomaly = AIAnomalyDetection(self.state)
+        self.state.active_defenses[ai_anomaly.name] = ai_anomaly
         self.state.log("AI Anomaly Detection is free to activate today!")
 
     def process_weight(self):

@@ -4,6 +4,9 @@ class DDOS(AttackEvent):
     name = "DDoS Attack"
     description = "A large-scale DDoS attack disrupted services."
 
+    def __init__(self, state, player):
+        super().__init__(state, player, weight=1, threat_level=0.5)
+
     def apply(self):
         effective_threat = self.threat_level
         for defense in self.state.active_defenses.values():

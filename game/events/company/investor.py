@@ -8,8 +8,8 @@ class InvestorConfidence(Event):
         super().__init__(state, player, weight=2)
 
     def apply(self):
-        gain = round(self.player.asset_value * 0.15)
-        self.player.asset_value += gain
+        gain = round(self.state.asset_value * 0.15)
+        self.state.asset_value += gain
         self.state.log(f"Investor confidence boosted assets by ${gain:,}.")
 
     def process_weight(self):

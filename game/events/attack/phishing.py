@@ -1,8 +1,11 @@
 from game.events.attack import AttackEvent
 
 class Phishing(AttackEvent):
-    name = "Phishing Campaign"
+    name = "Phishing Scam"
     description = "Employees received deceptive emails leading to data compromise."
+
+    def __init__(self, state, player):
+        super().__init__(state, player, weight=2, threat_level=0.6)
 
     def apply(self):
         effective_threat = self.threat_level

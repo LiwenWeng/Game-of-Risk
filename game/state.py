@@ -24,6 +24,9 @@ class State:
         if self.asset_value <= 0:
             self.end_game(win=False, reason="Company went bankrupt.")
 
+    def is_defense_active(self, defense_name: str) -> bool:
+        return defense_name in self.active_defenses
+
     def log(self, message: str):
         if not self.logs.get(self.current_day):
             self.logs[self.current_day] = []

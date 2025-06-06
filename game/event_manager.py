@@ -2,26 +2,44 @@ import random
 from typing import Type
 
 from game.events.attack import AttackEvent
+from game.events.attack import SupplyChainBreach, Phishing, DDOS, InsiderThreat, Ransomware, ZeroDayExploit
+from game.events.company import (
+    InvestorConfidence,
+    IndustryPartnership,
+    GrantAIDevelopment,
+    BudgetCuts,
+    DataMisconfiguration,
+    EmployeeTraining
+)
 from game.events.base_event import Event
 
 class EventManager:
     def __init__(self, state, player):
         self.state = state
         self.player = player
-        self.attacks: list[Type[AttackEvent]] = []
-        self.company: list[Type[Event]] = []
 
-    def register_attack(self, event_cls: Type[AttackEvent]):
-        self.attacks.append(event_cls)
+        self.attacks: list[Type[AttackEvent]] = [
+            Phishing,
+            DDOS,
+            InsiderThreat,
+            Ransomware,
+            SupplyChainBreach,
+            ZeroDayExploit,
+        ]
 
-    def register_company(self, event_cls: Type[Event]):
-        self.company.append(event_cls)
+        self.company: list[Type[Event]] = [
+            InvestorConfidence,
+            IndustryPartnership,
+            GrantAIDevelopment,
+            BudgetCuts,
+            DataMisconfiguration,
+            EmployeeTraining,
+        ]
 
     def get_weighted_events(self, event_classes: list[Type[Event]]) -> list[Event]:
         instances = [cls(self.state, self.player) for cls in event_classes]
         for event in instances:
-            if hasattr(event, "process_weight"):
-                event.process_weight()
+            event.process_weight()
         return instances
 
     def select_random_event(self, event_list: list[Event], chance_of_none: float = 0.1) -> Event | None:
@@ -41,25 +59,30 @@ class EventManager:
 
         risk = self.state.risk_level
         max_attacks = 0
-        if risk >= 0.8:
+        if risk >= 0.7:
             max_attacks = 3
-        elif risk >= 0.5:
-            max_attacks = 2
-        elif risk >= 0.25:
+        elif risk >= 0.3:
             max_attacks = 1
 
         attack_events = self.get_weighted_events(self.attacks)
         company_events = self.get_weighted_events(self.company)
 
+        random.shuffle(company_events)
+        random.shuffle(attack_events)
+
         company_event = self.select_random_event(company_events)
         if company_event:
             triggered_events.append(company_event)
+        else:
+            self.state.log("No company events occurred today.")
 
-        for _ in range(max_attacks):
+        for _ in range(min(max_attacks, len(attack_events))):
             attack_event = self.select_random_event(attack_events)
             if attack_event:
                 triggered_events.append(attack_event)
                 attack_events.remove(attack_event)
+            else:
+                self.state.log("No attacks occurred today.")
 
         for event in triggered_events:
             self.state.log(f"{event.name}: {event.description}")

@@ -4,6 +4,9 @@ class InsiderThreat(AttackEvent):
     name = "Insider Threat"
     description = "An employee with access leaked or sabotaged sensitive systems."
 
+    def __init__(self, state, player):
+        super().__init__(state, player, weight=1, threat_level=0.7)
+
     def apply(self):
         effective_threat = self.threat_level
         for defense in self.state.active_defenses.values():
