@@ -58,7 +58,7 @@ class Engine:
                 return selected
     
     def start_new_game(self):
-        clear_screen()
+        self.show_welcome_message_and_set_name()
         
 
     def show_instructions(self):
@@ -70,3 +70,17 @@ class Engine:
     def exit_game(self):
         sys.exit()
 
+    def show_welcome_message_and_set_name(self):
+        clear_screen()
+        type_text(f"Welcome to {colored_text('NetShield Inc.', Fore.MAGENTA)}, Operative.")
+        type_text("Your onboarding is now complete. You've officially joined the frontline defense of one of the world's fastest-growing tech firms.")
+        type_text(colored_text('\nAbout Us:', Fore.CYAN))
+        type_text(f"{colored_text('NetShield Inc.', Fore.MAGENTA)} builds secure digital infrastructure for {colored_text('global clients', Fore.GREEN)}.")
+        type_text(f"We pride ourselves on staying one step ahead of cyber threats — because in our world, {colored_text('one breach', Fore.RED)} is all it takes to fall.")
+        type_text(colored_text('\nYour Role:', Fore.GREEN))
+        type_text(f"You're our newest cybersecurity analyst. Your mission: {colored_text('assess, defend, adapt', Fore.CYAN)}.\n")
+        type_text(colored_text("Balance your resources. Mitigate risks. Survive the cyber storm.\n", Fore.YELLOW))
+        type_text(f"{colored_text('Now give us your code name', Fore.CYAN)}: ", end='')
+        self.player.set_name(input())
+
+    
