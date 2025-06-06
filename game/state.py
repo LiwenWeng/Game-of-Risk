@@ -1,7 +1,7 @@
 class State:
     def __init__(self, max_days: int = 30, starting_asset_value: int = 100_000):
         self.max_days = max_days
-        self.current_day = 0
+        self.current_day = 1
         self.is_over = False
         self.win = False
 
