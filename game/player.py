@@ -1,8 +1,8 @@
 class Player():
-    def __init__(self, starting_budget: int = 10000):
+    def __init__(self, starting_budget: int = 15000):
         self.name = ""
         self.budget = starting_budget
-        self.pay_rate = 0.005
+        self.pay_rate = 0.01
         
     def set_name(self, name: str):
         self.name = name

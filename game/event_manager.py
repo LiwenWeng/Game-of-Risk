@@ -31,7 +31,7 @@ class EventManager:
             InvestorConfidence,
             IndustryPartnership,
             GrantAIDevelopment,
-            BudgetCuts,
+            # BudgetCuts,
             DataMisconfiguration,
             EmployeeTraining,
         ]

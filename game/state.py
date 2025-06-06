@@ -12,7 +12,7 @@ class State:
         self.logs: dict[int, list] = {}
 
         self.asset_value = starting_asset_value
-        self.asset_growth_rate = 1.01
+        self.asset_growth_rate = 1.02
         self.active_defenses = {}
         self.defense_activation_locked = False
     
@@ -21,7 +21,7 @@ class State:
         action = "gained" if amount > 0 else "lost"
         self.log(f"Company {action} ${abs(amount):,}. New value: ${self.asset_value:,}")
 
-        if self.asset_value <= 25000:
+        if self.asset_value <= 0:
             self.end_game(win=False, reason="Company went bankrupt.")
 
     def is_defense_active(self, defense_name: str) -> bool:

@@ -67,10 +67,9 @@ class Engine:
 
     def day_menu(self):
         while not self.state.is_over:
-            self.event_manager.trigger_events_for_day()
             [
                 self.handle_action,
-                self.view_inventory,
+                # self.view_inventory,
                 self.view_logs,
                 self.end_day
             ][self.select_day_option()]()
@@ -99,7 +98,7 @@ class Engine:
 
         options = [
             { "text": "Take Action", "color": Fore.GREEN },
-            { "text": "View Inventory", "color": Fore.CYAN },
+            # { "text": "View Inventory", "color": Fore.CYAN },
             { "text": "View Logs", "color": Fore.MAGENTA },
             { "text": "End Day", "color": Fore.YELLOW },
         ]
@@ -108,7 +107,7 @@ class Engine:
         
     def handle_action(self):
         options = [
-            { "text": "Analyze Threats", "color": Fore.CYAN },
+            # { "text": "Analyze Threats", "color": Fore.CYAN },
             { "text": "Activate Defenses", "color": Fore.GREEN },
             { "text": "Visit Shop", "color": Fore.YELLOW },
             { "text": "Return", "color": Fore.RED },
@@ -120,13 +119,13 @@ class Engine:
         selected = select_option(options, show_action_prompt)
 
         match selected:
+            # case 0:
+            #     ...
             case 0:
-                ...
-            case 1:
                 self.activate_defenses()
-            case 2:
+            case 1:
                 type_text(colored_text("\nWelcome to the Shop. (Coming soon)", Fore.YELLOW))
-            case 3:
+            case 2:
                 self.day_menu()
         
         input()
@@ -198,6 +197,7 @@ class Engine:
         for defense in list(self.state.active_defenses.values()):
             if hasattr(defense, "tick"):
                 defense.tick()
+        self.event_manager.trigger_events_for_day()
 
     def show_instructions(self):
         clear_screen()
