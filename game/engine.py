@@ -15,7 +15,7 @@ class Engine:
         self.state = State()
         self.player = Player()
         self.event_manager = EventManager()
-        self.all_defense = DefenseFactory().create_all(self.state)
+        self.all_defenses = DefenseFactory().create_all(self.state)
 
     def run(self):
         # [ 
@@ -46,13 +46,7 @@ class Engine:
     def start_new_game(self):
         # self.show_welcome_message()
         # self.set_name()
-        while not self.state.is_over:
-            [
-                self.handle_action,
-                self.view_inventory,
-                self.view_logs,
-                self.end_day
-            ][self.select_day_option()]()
+        self.day_menu()
         
     def show_welcome_message(self):
         clear_screen()
@@ -71,6 +65,15 @@ class Engine:
     def set_name(self):
         type_text(f"{colored_text('Now give us your code name', Fore.CYAN)}: ", end='')
         self.player.set_name(input())
+
+    def day_menu(self):
+        while not self.state.is_over:
+            [
+                self.handle_action,
+                self.view_inventory,
+                self.view_logs,
+                self.end_day
+            ][self.select_day_option()]()
 
     def show_day_info(self):
         print_colored(f"Day {self.state.current_day} / {self.state.max_days}", Fore.CYAN, Style.BRIGHT)
@@ -101,7 +104,7 @@ class Engine:
     def handle_action(self):
         options = [
             { "text": "Analyze Threats", "color": Fore.CYAN },
-            { "text": "Upgrade Defenses", "color": Fore.GREEN },
+            { "text": "Activate Defenses", "color": Fore.GREEN },
             { "text": "Visit Shop", "color": Fore.YELLOW },
             { "text": "Return", "color": Fore.RED },
         ]
@@ -113,16 +116,13 @@ class Engine:
 
         match selected:
             case 0:
-                # Example placeholder — implement logic later
-                type_text(colored_text("\nYou analyzed potential threats and gained valuable intel.\n", Fore.CYAN))
-                self.state.change_asset_value(5000)
+                ...
             case 1:
-                type_text(colored_text("\nYou upgraded your firewall systems.\n", Fore.GREEN))
-                self.state.change_asset_value(-3000)
+                self.activate_defenses()
             case 2:
-                type_text(colored_text("\nWelcome to the Shop. (Coming soon)\n", Fore.YELLOW))
+                type_text(colored_text("\nWelcome to the Shop. (Coming soon)", Fore.YELLOW))
             case 3:
-                return
+                self.day_menu()
         
         input()
         self.handle_action()
@@ -151,8 +151,43 @@ class Engine:
             elif key.lower() == 'q':
                 break
 
+    def activate_defenses(self):
+        index = 0
+        while True:
+            clear_screen()
+
+            defense = self.all_defenses[index]
+            print_colored(f"🛡️  Defense {index + 1} of {len(self.all_defenses)}", Fore.CYAN, Style.BRIGHT)
+            print_colored(f"💰 Budget: ${self.player.budget:,}\n", Fore.YELLOW, Style.BRIGHT)
+            print(defense)
+
+            print_colored(
+                "\nA: Activate | Q: Return\n← Previous - Next →\n",
+                Fore.MAGENTA
+            )
+
+            key = readchar.readkey()
+            if key == readchar.key.RIGHT:
+                index = (index + 1) % len(self.all_defenses)
+            elif key == readchar.key.LEFT:
+                index = (index - 1) % len(self.all_defenses)
+            elif key.lower() == 'a':
+                if defense.active:
+                    type_text(colored_text("Already active.", Fore.BLUE))                    
+                elif self.player.budget >= defense.cost:
+                    if defense.activate():
+                        self.player.budget -= defense.cost
+                        type_text(colored_text(f"{defense.name} activated!", Fore.GREEN))
+                else:
+                    type_text(colored_text("Insufficient budget.", Fore.RED))
+                input("\nPress any key to continue...")
+            elif key.lower() == 'q':
+                self.handle_action()
+
     def end_day(self):
         self.state.advance_day()
+        for defense in list(self.state.active_defenses.values()):
+            defense.tick()
 
     def show_instructions(self):
         clear_screen()
