@@ -4,6 +4,9 @@ class DataMisconfiguration(Event):
     name = "Data Misconfiguration"
     description = "A team accidentally exposes sensitive data during maintenance."
 
+    def __init__(self, state, player):
+        super().__init__(state, player, weight=2)
+
     def apply(self):
         if not self.state.is_defense_active("Network Segmentation"):
             self.state.risk_level += 0.15

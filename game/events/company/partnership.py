@@ -4,6 +4,9 @@ class IndustryPartnership(Event):
     name = "Industry Partnership"
     description = "You’ve partnered with a major security firm for infrastructure upgrades."
 
+    def __init__(self, state, player):
+        super().__init__(state, player, weight=1)
+
     def apply(self):
         for defense in self.state.all_defenses:
             defense.effectiveness *= 1.05
